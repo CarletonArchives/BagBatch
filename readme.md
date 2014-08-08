@@ -1,4 +1,5 @@
 BagIt batch processing in Python
+================================
 
 bagbatch.py
     Written to run BagIt on multiple directories at once.
@@ -26,22 +27,22 @@ Requirements and setup
 up Java and BagIt.
 
 
-BAGIT
+#### BAGIT
 
-BagIt can be downloaded from the [Library of Congress on GitHub] (https://github.com/LibraryOfCongress/bagit-java). Adapted from the readme file for BagIt 4.9.0 (see the link above for the most recent information):
+BagIt can be downloaded from the [Library of Congress on GitHub](https://github.com/LibraryOfCongress/bagit-java). Adapted from the readme file for BagIt 4.9.0 (see the link above for the most recent information):
    |  Unzip bagit-java-master. From this new folder, unzip bagit-x.x.x-src.zip.
    |  In the resulting 'bagit-x.x.x/bin' subdirectory, you will find bag.sh 
    |  (Mac) and bag.bat (Windows) scripts that are used to invoke the 
    |  commandline interface.
 
-JAVA
+#### JAVA
 
 Java must be installed and the Java runtime environment (JAVA_HOME) must be 
 set up correctly for BagIt. To check if Java is installed, type "java -version"
 (without the quotes) in the terminal (Mac) or command prompt (Windows). If 
 Java is not installed, download it from java.com. 
 
-PYTHON
+#### PYTHON
 
 Python must be installed to run bagbatch.py. Enter "python" into the terminal 
 or command prompt to see if Python is setup for terminal/command line use. If 
@@ -52,7 +53,7 @@ python.org). [Python documentation for setting up the interpreter](https://docs.
 
 Using bagbatch.py
 -----------------
-OVERVIEW
+#### OVERVIEW
 
 1. Using the terminal or command prompt, navigate to the directory containing 
 bagbatch.py
@@ -60,7 +61,7 @@ bagbatch.py
 containing the subdirectories to be bagged
 
 
-DETAILED INSTRUCTIONS
+#### DETAILED INSTRUCTIONS
 
 1. Open the [terminal](http://www.westwind.com/reference/os-x/commandline/navigation.html) or [command prompt](http://ss64.com/nt/cd.html) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".
 2. Enter (without the quotes) "python bagbatch.py <dir>". <dir> is the 
@@ -76,7 +77,7 @@ to bag. The program is done once "Bags complete" is printed.
 
 Changing the BagIt installation path used by bagbatch.py 
 --------------------------------------------------------
-OVERVIEW
+#### OVERVIEW
 
  - Option 1: Delete BAGIT_INST_PATH.txt and run bagbatch.py. Enter the 
  location of the new installation.
@@ -84,7 +85,7 @@ OVERVIEW
  installation
 
 
-DETAILED INSTRUCTIONS
+#### DETAILED INSTRUCTIONS
 
 BAGIT_INST_PATH.txt contains the path to BagIt's bag installation. This path 
 will look similar to "C:/Program Files/bagit-VERSION/bin" or "/Program Files/
