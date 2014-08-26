@@ -1,7 +1,9 @@
 """
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
-	August 2014
+	
+	BagBatch Version 1.0.1
+	Updated August 26 2014  
 
 	Usage:	python bagbatch.py <dir>
 			<dir> is the parent of the subdirectories to bag
@@ -20,6 +22,7 @@
 import os, sys, platform
 import shlex, subprocess
 
+VERSION = '1.0.1'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 
@@ -105,7 +108,8 @@ def get_ext():
 		return '.sh'
 	
 def usage_message():
-	print "Usage:\tpython bagbatch.py <dir>\n",
+	print "BagBatch Version",VERSION
+	print "Usage:\tpython bagbatch.py <dir>"
 	print "\t<dir> is the parent directory of the subdirectories to bag"
 	print "\tBAGIT_INST_PATH.txt will contain the installation path to bag%s" %get_ext()
 
