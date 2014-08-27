@@ -1,11 +1,11 @@
 BagIt batch processing in Python
 ================================
-Version 1.0.1  
+Version 1.1.0  
 Updated August 26 2014  
 
 ## BagIt and bagbatch.py
 BagIt is a Java-based program that creates archival bags of files following 
-the BagIt standard developed by the Library of Congress. It is used to store a 
+the [BagIt standard](https://github.com/LibraryOfCongress/bagit-java) developed by the Library of Congress. It is used to store a 
 directory's master copies, web copies, and metadeta or to verify that files 
 have been transfered from one computer to another properly. By default, BagIt 
 only processes one directory at a time. bagbatch.py was written to process an 
@@ -85,22 +85,27 @@ To see a list of folders, type `ls` and press enter. This lists all the director
 
 1. Using the terminal or command prompt, navigate to the directory containing 
 bagbatch.py
-2. Enter `python bagbatch.py <dir>` where <dir> is the parent directory 
-containing the subdirectories to be bagged
+2. Enter `python bagbatch.py <command>` or `python bagbatch.py <command> <dir>` where `<dir>` is the parent directory containing the subdirectories to be bagged.  
+Commands are as follows:  
+
+ - baginplace: Creates a bag-in-place.  The source must be a directory on a filesystem and may already have a data directory.
+ - update: Updates the manifests and (if it exists) the bag-info.txt for a bag.
+ - verifyvalid: Verifies the validity of a bag.
 
 
 ##### Detailed Instructions
 
-1. Open the [terminal](http://www.westwind.com/reference/os-x/commandline/navigation.html) or [command prompt](http://ss64.com/nt/cd.html) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".
-2. Enter `python bagbatch.py <dir>`. `<dir>` is the 
+1. Open the [terminal](http://www.westwind.com/reference/os-x/commandline/navigation.html) or [command prompt](http://ss64.com/nt/cd.html) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".  
+2. If prompted for the directory containing bag.sh (Mac) or bag.bat (Windows), navigate to the installation directory. This folder name will look like 
+`bagit-VERSION`.
+3. Enter `python bagbatch.py <command>` using an [accepted command](https://github.com/SahreeK/BagBatch#overview). Press 
+enter and the current status will be printed to the screen.  
+Or manually enter the directory: Enter `python bagbatch.py <command> <dir>` where `<dir>` is the 
 directory that contains all the subdirectories that need to be bagged. Type 
-the path in or drag-and-drop the folder from the Finder/Explorer menu. Press 
-enter and the current status will be printed to the screen. If prompted for 
-the directory containing bag.sh (Mac) or bag.bat (Windows), enter the 
-installation directory. This end of this folder name will look like 
-`"\bagit-VERSION\bin"`. Depending on the size of the files, it may take a while 
-to bag. The program is done once "Bags complete" is printed.
+the path in or drag-and-drop the folder from the Finder/Explorer menu. Press enter.
 
+4. Depending on the size of the files, it may take a while 
+to bag. The program is done once "Bags complete" is printed.
 
 
 ## Setting up a new version of BagIt
@@ -132,6 +137,14 @@ installation this time, or enter in the path to the new installation.
 
 
 ## Troubleshooting
+If getting errors in Terminal or Command Prompt such as
+
+    Error occurred during initialization of VM  
+    Could not reserve enough space for object heap  
+    Error: Could not create the Java Virtual Machine.
+
+Try restarting your computer. If the problem persists, follow these directions ([Mac](https://wiki.carleton.edu/display/carl/Bagit#Bagit-Setting$JAVA_HOMEandincreasingmemory), [Windows](https://wiki.carleton.edu/display/carl/Bagit#Bagit-DownloadandinstallBagit)) to increase the amount of memory Java can access for BagIt.
+
 ### Java
  - Is Java (version 6 or 7) installed? BagBatch has been tested with Java 7.
  - Is Java correctly setup for Terminal or Command Prompt usage? Enter `java -version` in Terminal or Command Prompt to check the version. 

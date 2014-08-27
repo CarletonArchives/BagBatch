@@ -1,7 +1,11 @@
-## Version 1.0.1
+##### Version 1.1.0
+ - Added a dialog box to browse folders for selecting the location of BagIt and the parent folder with the folders to bag (instead of typing or copy-pasting the path manually)
+ - Changed usage to `python bagbatch.py <command> <dir>` where <dir> is optional. Accepted commands are baginplace, update, and verifyvalid
+
+##### Version 1.0.1
  - Added a version numbering system following the format [major changes].[minorchanges].[patches]
 
-## Version 1.0.0
+##### Version 1.0.0
 Initial commit to GitHub.  
 Features: 
 

@@ -2,7 +2,7 @@
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
 	
-	BagBatch Version 1.0.1
+	BagBatch Version 1.1.0
 	Updated August 26 2014  
 
 	Usage:	python bagbatch.py <dir>
@@ -21,26 +21,28 @@
 
 import os, sys, platform
 import shlex, subprocess
+from tkFileDialog import askopenfilename
+import tkFileDialog, Tkinter
 
-VERSION = '1.0.1'
+VERSION = '1.1.0'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 
-def call_bag_baginplace(directory, timeout = None):
-	""" Given a single directory, calls bag baginplace <dir> using 
+def call_bag_command(directory, command):
+	""" Given a single directory, calls bag <command> <dir> using 
 	subprocess.check_call() for Windows and subprocess.Popen() for Mac. Errors  
 	will be printed out. """
-	print '----------------------\nBagging', directory + "."	
+	print '----------------------\n',command + ':', os.path.normpath(directory) + "."	
 	with open(BAGIT_INST_PATH) as bb_path:
 		path = bb_path.read()
 
 	os.chdir(path)
 	try:
 		if get_ext() == '.bat':
-			subprocess.check_call([os.path.join(path, 'bag'), 'baginplace', directory], shell=True)
+			subprocess.check_call([os.path.join(path, 'bag'), command, directory], shell=True)
 			return True
 		elif get_ext() == '.sh':
-			p = subprocess.Popen(['./bag','baginplace',directory])
+			p = subprocess.Popen(['./bag', command, directory])
 			p.wait()
 			stdout, stderr = p.communicate()
 			# if nothing goes wrong, stdout and stderr = None
@@ -54,8 +56,8 @@ def call_bag_baginplace(directory, timeout = None):
 			return False
 		
 	except:
-		print "Error: Directory not bagged. Make sure BagIt is installed correctly \
-		and the directory path listed in", BAGIT_INST_PATH, "contains bag" + get_ext()
+		print "Error:", command, "was not successful. Look in the readme for troubleshooting help. Make sure BagIt is installed correctly and the directory path listed in",
+		BAGIT_INST_PATH, "contains bag" + get_ext()
 		return False
 
 
@@ -83,7 +85,10 @@ def validate_bagit_path():
 		path = bb_path.read()
 	
 	# if the path exists and the files are present, return and start bagging
-	if path and os.path.exists(path):
+	path = os.path.normpath(path)
+	if path and os.path.exists(path) and not path == '':
+		if not 'bin' in path:
+			path = os.path.join(path,'bin')
 		if os.path.isfile(os.path.join(path,'bag')):
 			print "Validated.\n"
 			return
@@ -91,14 +96,29 @@ def validate_bagit_path():
 			print 'cannot find extension'
 
 	# if not, prompt for new path, write to BAGIT_INST_PATH.txt, and validate
-	path = str(raw_input('Enter the BagIt installation path containing bag%s (ex: "C:\\Program Files\\bagit-x.x.x\\bin" or "/Program Files/bagit-x.x.x/bin"): '%get_ext())) 
+	
+	# WHEN YOU PRESS CANCEL, EXIT PROGRAM!
+	message = '\nFind the BagIt installation folder containing bag%s\nLook in Applications (Mac) or Program Files (Windows)' %get_ext()
+	path = select_folder(message)
 	# if there are extra quoting characters, remove them
 	if '"' in path or "'" in path:
 		path=''.join(shlex.split(path))
+	try:
+		path_bin = path + '/bin'
+		if not os.path.isfile(path_bin):
+			print 'not a valid folder'
+	except:
+		print 'no bin path'
 	bb_file = open(BAGIT_INST_PATH, "w")
-	bb_file.write(path.strip())
+	bb_file.write(path_bin.strip())
 	bb_file.close()
 	validate_bagit_path()
+
+def select_folder(message):
+	print message
+	root = Tkinter.Tk()
+	root.withdraw()
+	return tkFileDialog.askdirectory(parent = root, title = message)
 
 def get_ext():
 	""" Based on the operation system, returns the correct file extension for. """
@@ -106,26 +126,53 @@ def get_ext():
 		return '.bat'
 	else:
 		return '.sh'
-	
+
+def valid_commands():
+	return {'baginplace':'Creates a bag-in-place. The source must be a directory on a filesystem and may already have a data directory.',
+	'update':'Updates the manifests and (if it exists) the bag-info.txt for a bag.',
+	'verifyvalid':'Verifies the validity of a bag.'}
+
 def usage_message():
+	commands = valid_commands()
 	print "BagBatch Version",VERSION
-	print "Usage:\tpython bagbatch.py <dir>"
-	print "\t<dir> is the parent directory of the subdirectories to bag"
+	print "Usage:\tpython bagbatch.py <command>"
+	print "\tOr:\tpython bagbatch.py <command> <dir>"
+	print "\t\t<dir> is the parent directory of the subdirectories to bag"
+	print "\tValid Commands:"
+	for cmd in commands:
+		print cmd + ': \t' + commands[cmd]
 	print "\tBAGIT_INST_PATH.txt will contain the installation path to bag%s" %get_ext()
 
 def main():
-	if len(sys.argv) <= 1 or not os.path.exists(sys.argv[1]):
+	command = 'baginplace'
+	if len(sys.argv) == 1:
 		return usage_message()
+	if len(sys.argv) == 2:
+		if sys.argv[1] == 'help' or sys.argv[1] == 'version':
+			return usage_message()
+		elif not sys.argv[1] in valid_commands():
+			print "\nInvalid command given. Using",command,"instead."
+		elif sys.argv[1] in valid_commands():
+			command = sys.argv[1]
+		dirToBag = select_folder('Select the parent folder containing the folders to %s.' %command)
+	elif len(sys.argv) == 3:
+		if sys.argv[1] in valid_commands():
+			command = sys.argv[1]
+		if os.path.exists(sys.argv[2]):
+			dirToBag = sys.argv[2]
+		else:
+			print "\nInvalid folder path. Please select the correct folder."
+			dirToBag = select_folder('Select the parent folder containing the folders to %s.' %command)						
 
 	validate_bagit_path()
+	dirToBag = os.path.normpath(dirToBag)
 
-	dirToBag = sys.argv[1]
-	print "----------------------\nCreating bags for all directories in", 
+	print "----------------------\n",command+": for all directories in", 
 	print dirToBag + ".\n----------------------"
 	success = True
 	for d in get_immediate_subdirectories(dirToBag):
-		# calls 'bag baginplace <dir>' for each directory
-		if not call_bag_baginplace(d):
+		# calls 'bag <dir> <command>' for each directory
+		if not call_bag_command(d, command):
 			success = False
 		os.chdir(BAGBATCH_DIR)
 	if success:
