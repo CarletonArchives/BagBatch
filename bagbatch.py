@@ -2,7 +2,7 @@
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
 	
-	BagBatch Version 1.1.0
+	BagBatch Version 1.1.1
 	Updated August 26 2014  
 
 	Usage:	python bagbatch.py <dir>
@@ -24,7 +24,7 @@ import shlex, subprocess
 from tkFileDialog import askopenfilename
 import tkFileDialog, Tkinter
 
-VERSION = '1.1.0'
+VERSION = '1.1.1'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 
@@ -96,8 +96,6 @@ def validate_bagit_path():
 			print 'cannot find extension'
 
 	# if not, prompt for new path, write to BAGIT_INST_PATH.txt, and validate
-	
-	# WHEN YOU PRESS CANCEL, EXIT PROGRAM!
 	message = '\nFind the BagIt installation folder containing bag%s\nLook in Applications (Mac) or Program Files (Windows)' %get_ext()
 	path = select_folder(message)
 	# if there are extra quoting characters, remove them
@@ -118,7 +116,11 @@ def select_folder(message):
 	print message
 	root = Tkinter.Tk()
 	root.withdraw()
-	return tkFileDialog.askdirectory(parent = root, title = message)
+	result = tkFileDialog.askdirectory(parent = root, title = message)
+	if not result:
+		print '\nExiting BagBatch.py'
+		sys.exit()
+	return result
 
 def get_ext():
 	""" Based on the operation system, returns the correct file extension for. """
@@ -133,15 +135,14 @@ def valid_commands():
 	'verifyvalid':'Verifies the validity of a bag.'}
 
 def usage_message():
-	commands = valid_commands()
 	print "BagBatch Version",VERSION
 	print "Usage:\tpython bagbatch.py <command>"
 	print "\tOr:\tpython bagbatch.py <command> <dir>"
 	print "\t\t<dir> is the parent directory of the subdirectories to bag"
-	print "\tValid Commands:"
-	for cmd in commands:
-		print cmd + ': \t' + commands[cmd]
 	print "\tBAGIT_INST_PATH.txt will contain the installation path to bag%s" %get_ext()
+	print "Valid Commands:"
+	for cmd in valid_commands():
+		print '\t' + cmd + ': \t' + valid_commands()[cmd]
 
 def main():
 	command = 'baginplace'

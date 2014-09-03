@@ -1,7 +1,7 @@
 BagIt batch processing in Python
 ================================
-Version 1.1.0  
-Updated August 26 2014  
+Version 1.1.1  
+Updated September 3 2014  
 
 ## BagIt and bagbatch.py
 BagIt is a Java-based program that creates archival bags of files following 
@@ -73,11 +73,11 @@ Python must be able to run from Command Prompt or Terminal. The Python environme
 ### Opening Command Prompt (Windows) and Terminal (Mac)
 ###### Windows 7
 Start/All Programs/Accessories/Command Prompt  
-To see a list of folders, type `dir` and press enter. This lists all the directories (folders) in the current directory. To navigate to one of those directories, enter `cd FolderName` and use quotes around the folder name if the name contains spaces, such as `cd "Folder Name"`. To navigate backwards, type `cd ..`.
+To see a list of folders, type `dir` and press enter. This lists all the directories (folders) in the current directory. To navigate to one of those directories, enter `cd FolderName` and use quotes around the folder name if the name contains spaces, such as `cd "Folder Name"`. To navigate backwards, type `cd ..`. [More tutorials](http://ss64.com/nt/cd.html).
   
 ###### Mac
 Applications/Utilities/Terminal  
-To see a list of folders, type `ls` and press enter. This lists all the directories (folders) in the current directory. To navigate to one of those directories, enter `cd FolderName` and use quotes around the folder name if the name contains spaces, such as `cd "Folder Name"`. To navigate backwards, type `cd ..`. 
+To see a list of folders, type `ls` and press enter. This lists all the directories (folders) in the current directory. To navigate to one of those directories, enter `cd FolderName` and use quotes around the folder name if the name contains spaces, such as `cd "Folder Name"`. To navigate backwards, type `cd ..`. [More tutorials](http://www.westwind.com/reference/os-x/commandline/navigation.html).
 
 
 ## Using bagbatch.py
@@ -95,7 +95,7 @@ Commands are as follows:
 
 ##### Detailed Instructions
 
-1. Open the [terminal](http://www.westwind.com/reference/os-x/commandline/navigation.html) or [command prompt](http://ss64.com/nt/cd.html) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".  
+1. Open [Terminal or Command Prompt](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".  
 2. If prompted for the directory containing bag.sh (Mac) or bag.bat (Windows), navigate to the installation directory. This folder name will look like 
 `bagit-VERSION`.
 3. Enter `python bagbatch.py <command>` using an [accepted command](https://github.com/SahreeK/BagBatch#overview). Press 
@@ -163,5 +163,5 @@ Try restarting your computer. If the problem persists, follow these directions (
 ### BagIt
 Download BagIt 4.x.x from the [Library of Congress on GitHub](https://github.com/LibraryOfCongress/bagit-java).  
 
- - Is BagIt installed?
+ - Is BagIt downloaded?
  - Which version of BagIt? BagBatch has been tested with BagIt 4.4 and BagIt 4.9.0.
