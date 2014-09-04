@@ -2,8 +2,8 @@
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
 	
-	BagBatch Version 1.1.1
-	Updated August 26 2014  
+	BagBatch Version 1.1.2
+	Updated September 4, 2014  
 
 	Usage:	python bagbatch.py <dir>
 			<dir> is the parent of the subdirectories to bag
@@ -24,7 +24,7 @@ import shlex, subprocess
 from tkFileDialog import askopenfilename
 import tkFileDialog, Tkinter
 
-VERSION = '1.1.1'
+VERSION = '1.1.2'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 

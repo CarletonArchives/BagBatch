@@ -1,3 +1,6 @@
+##### Version 1.1.2
+ - Added linked table of contents to readme
+
 ##### Version 1.1.1
  - In either dialog, if 'cancel' is selected, the program exits
  - Minor reorganizing of usage message
