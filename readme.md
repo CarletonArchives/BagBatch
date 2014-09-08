@@ -1,13 +1,13 @@
-BagIt batch processing in Python
+BagBatch: BagIt batch processing in Python
 ================================
-Version 1.1.2  
-Updated September 4, 2014  
+Version 1.1.3  
+Updated September 8, 2014  
 
 [__BagIt and bagbatch.py__](https://github.com/SahreeK/BagBatch#bagit-and-bagbatchpy)  
 [__Requirements and setup__](https://github.com/SahreeK/BagBatch#requirements-and-setup)  
 – [BagIt](https://github.com/SahreeK/BagBatch#bagit)  
 – [Java](https://github.com/SahreeK/BagBatch#java)  
-– – – [Setting up the JAVA HOME environment variable](https://github.com/SahreeK/BagBatch#setting-up-the-java_home-environment-variable)  
+– – – [Setting up the JAVA\_HOME environment variable](https://github.com/SahreeK/BagBatch#setting-up-the-java_home-environment-variable)  
 – – – – – – – [Windows 7](https://github.com/SahreeK/BagBatch#windows-7)  
 – – – – – – – [Mac](https://github.com/SahreeK/BagBatch#mac)  
 – [Python](https://github.com/SahreeK/BagBatch#python)  
@@ -43,9 +43,9 @@ entire parent directory with folders ready for bagging on both Mac and Windows.
  - Java
  - Python 2.7
 
-Follow the instructions below to setup the above programs. For additional information, check out [Carlpedia - BagIt](https://wiki.carleton.edu/display/carl/BagIt), which has links to tutorials and examples.  
+Follow the instructions below to setup the required programs. For additional information, check out [Carlpedia - BagIt](https://wiki.carleton.edu/display/carl/BagIt), which has links to tutorials and examples.  
 
-If you have an older or newer version of Windows, the directions below may not apply.
+If you have an older or newer version of Windows or Mac, the directions below may not apply to your operating system.
 
 ### BagIt
 
@@ -55,9 +55,9 @@ BagIt can be downloaded from the [Library of Congress on GitHub](https://github.
 
 ### Java
 
-Java 6 or 7 must be installed. To check if Java is installed, type `java -version` 
+Java must be installed. To check if Java is installed, type `java -version` 
 in [Terminal (Mac) or Command Prompt (Windows)](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac). If 
-Java is not installed, download it from [java.com](https://www.java.com/). BagBatch has been tested with Java 7. 
+Java is not installed, download it from [java.com](https://www.java.com/). Although the BagIt specifications recommend Java 6, bagbatch.py has also been tested with Java 7. If you run into any Java issues, check out the [troubleshooting section](https://github.com/SahreeK/BagBatch#troubleshooting).
 
 ###### Setting up the JAVA_HOME environment variable
 The Java runtime environment (JAVA_HOME) must be set up correctly for BagIt to run. Follow the steps for your operating system below.  
@@ -91,7 +91,7 @@ Python must be able to run from Command Prompt or Terminal. The Python environme
 1. Find the installation folder for Python 2.7, which is usually C:\Python27.  
 2. Click Start/Control Panel. Enter into the search bar 'environment variable' and select *Edit environment variables for your account*. Or, to do it manually: Start/Control Panel/System and Security/System/Advanced system settings/Environment variables.  
 3. In the Environment Variables window, under *System variables*, select the `Path` variable and click Edit.  
-4. To the end of the value field, add a semicolon if need be and add `C:\Python27;C:\Python27\Scripts`.
+4. To the end of the value field, add a semicolon if need be and add the location of the Python installation. If this is C:\Python27, add `C:\Python27;C:\Python27\Scripts`.
 
 ###### Installation Details: Mac
 [Getting and installing Python](http://docs.python-guide.org/en/latest/starting/install/osx/)
@@ -109,7 +109,7 @@ To see a list of folders, type `ls` and press enter. This lists all the director
 ## Using bagbatch.py
 ##### Overview
 
-1. Using the terminal or command prompt, navigate to the directory containing 
+1. Using [Terminal or Command Prompt](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac), navigate to the directory containing 
 bagbatch.py
 2. Enter `python bagbatch.py <command>` or `python bagbatch.py <command> <dir>` where `<dir>` is the parent directory containing the subdirectories to be bagged.  
 Commands are as follows:  
@@ -122,23 +122,23 @@ Commands are as follows:
 ##### Detailed Instructions
 
 1. Open [Terminal or Command Prompt](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".  
-2. If prompted for the directory containing bag.sh (Mac) or bag.bat (Windows), navigate to the installation directory. This folder name will look like 
+2. If prompted for the directory containing bag.sh (Mac) or bag.bat (Windows) in the bin folder, navigate to the installation directory. This folder name will look like 
 `bagit-VERSION`.
 3. Enter `python bagbatch.py <command>` using an [accepted command](https://github.com/SahreeK/BagBatch#overview). Press 
 enter and the current status will be printed to the screen.  
 Or manually enter the directory: Enter `python bagbatch.py <command> <dir>` where `<dir>` is the 
 directory that contains all the subdirectories that need to be bagged. Type 
-the path in or drag-and-drop the folder from the Finder/Explorer menu. Press enter.
+the path in or drag-and-drop the folder from the Finder/Explorer menu. Press enter. If no command is enter, baginplace will be used.
 
 4. Depending on the size of the files, it may take a while 
 to bag. The program is done once "Bags complete" is printed.
 
 
-## Setting up a new version of BagIt
+## Setting up a new version of BagIt or changing the installation path
 ##### Overview
 The BagIt installation path used by bagbatch.py must be manually deleted or changed.
 
- - Option 1: Delete `BAGIT_INST_PATH.txt` and run bagbatch.py. Enter the location of the new installation.
+ - Option 1: Delete `BAGIT_INST_PATH.txt`, located in the same folder as bagbatch.py, and run bagbatch.py. It will prompt for the location of the new installation.
  - Option 2: Manually edit `BAGIT_INST_PATH.txt` to the location of the new installation
 
 
@@ -163,16 +163,17 @@ installation this time, or enter in the path to the new installation.
 
 
 ## Troubleshooting
-If getting errors in Terminal or Command Prompt such as
+If you are getting errors in Terminal or Command Prompt such as
 
     Error occurred during initialization of VM  
     Could not reserve enough space for object heap  
-    Error: Could not create the Java Virtual Machine.
+    Error: Could not create the Java Virtual Machine.  
+    Error: A fatal exception has occurred. Program will exit.
 
-Try restarting your computer. If the problem persists, follow these directions ([Mac](https://wiki.carleton.edu/display/carl/Bagit#Bagit-Setting$JAVA_HOMEandincreasingmemory), [Windows](https://wiki.carleton.edu/display/carl/Bagit#Bagit-DownloadandinstallBagit)) to increase the amount of memory Java can access for BagIt.
+First, try closing any open programs except Terminal/Command Prompt. If that doesn't work, restart your computer and try running bagbatch.py again. If the problem persists, follow these directions ([Mac](https://wiki.carleton.edu/display/carl/Bagit#Bagit-Setting$JAVA_HOMEandincreasingmemory), [Windows](https://wiki.carleton.edu/display/carl/Bagit#Bagit-DownloadandinstallBagit)) to increase the amount of memory Java can access for BagIt.
 
 ### Java
- - Is Java (version 6 or 7) installed? BagBatch has been tested with Java 7.
+ - Is Java (version 6 or 7) installed? BagIt recommends Java 6, and BagBatch has been tested with Java 7.
  - Is Java correctly setup for Terminal or Command Prompt usage? Enter `java -version` in Terminal or Command Prompt to check the version. 
  - Is the JAVA_HOME environment variable setup correctly? [Follow these setup instructions](https://github.com/SahreeK/BagBatch#setting-up-the-java_home-environment-variable).  
  - If that does not work, try uninstalling and reinstalling Java, following [Java's download instructions](https://www.java.com/en/).
@@ -183,11 +184,12 @@ Try restarting your computer. If the problem persists, follow these directions (
  - For Windows, check to see if the Python environment variable is [setup correctly](https://github.com/SahreeK/BagBatch#installation-details-windows-7). 
  - If that does not work, try uninstalling and reinstalling Python 2.7, following [Python's download instructions](https://www.python.org/).
 
-### BagBatch
- - Check your version of BagBatch by entering `python bagbatch.py`.
-
 ### BagIt
 Download BagIt 4.x.x from the [Library of Congress on GitHub](https://github.com/LibraryOfCongress/bagit-java).  
 
  - Is BagIt downloaded?
  - Which version of BagIt? BagBatch has been tested with BagIt 4.4 and BagIt 4.9.0.
+ - Check that the downloaded folder for BagIt contains the folder `bin`. In `bin`, there must be a file called `bag.sh` (Mac) or `bag.bat` (Windows). 
+
+### BagBatch
+ - Check your version of BagBatch by entering `python bagbatch.py`.

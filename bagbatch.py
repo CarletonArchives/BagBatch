@@ -2,8 +2,8 @@
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
 	
-	BagBatch Version 1.1.2
-	Updated September 4, 2014  
+	BagBatch Version 1.1.3
+	Updated September 8, 2014  
 
 	Usage:	python bagbatch.py <dir>
 			<dir> is the parent of the subdirectories to bag
@@ -24,7 +24,7 @@ import shlex, subprocess
 from tkFileDialog import askopenfilename
 import tkFileDialog, Tkinter
 
-VERSION = '1.1.2'
+VERSION = '1.1.3'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 
@@ -56,8 +56,7 @@ def call_bag_command(directory, command):
 			return False
 		
 	except:
-		print "Error:", command, "was not successful. Look in the readme for troubleshooting help. Make sure BagIt is installed correctly and the directory path listed in",
-		BAGIT_INST_PATH, "contains bag" + get_ext()
+		print "Error:", command, "was not successful. Look in the readme for troubleshooting."
 		return False
 
 
@@ -155,7 +154,10 @@ def main():
 			print "\nInvalid command given. Using",command,"instead."
 		elif sys.argv[1] in valid_commands():
 			command = sys.argv[1]
-		dirToBag = select_folder('Select the parent folder containing the folders to %s.' %command)
+		if os.path.exists(sys.argv[1]):
+			dirToBag = sys.argv[1]
+		else:
+			dirToBag = select_folder('Select the parent folder containing the folders to %s.' %command)
 	elif len(sys.argv) == 3:
 		if sys.argv[1] in valid_commands():
 			command = sys.argv[1]
@@ -168,7 +170,7 @@ def main():
 	validate_bagit_path()
 	dirToBag = os.path.normpath(dirToBag)
 
-	print "----------------------\n",command+": for all directories in", 
+	print "----------------------\nRunning",command,"for all directories in", 
 	print dirToBag + ".\n----------------------"
 	success = True
 	for d in get_immediate_subdirectories(dirToBag):
@@ -177,7 +179,7 @@ def main():
 			success = False
 		os.chdir(BAGBATCH_DIR)
 	if success:
-		print "----------------------\n----------------------\nBags Complete.\n----------------------"
+		print "\n----------------------\n----------------------\nBags Complete.\n----------------------"
 	else:
 		print "----------------------\n----------------------\nBags not complete: Error with bags.\n----------------------"
 main()

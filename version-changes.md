@@ -1,3 +1,8 @@
+##### Version 1.1.3
+ - Edited error message in call_bag_command()
+ - Added terminal/command line functionality: `python bagbatch.py <dir>`. <command> is automatically `baginplace`
+ - Various edits to readme
+
 ##### Version 1.1.2
  - Added linked table of contents to readme
 
