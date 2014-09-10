@@ -1,7 +1,7 @@
 BagBatch: BagIt batch processing in Python
 ================================
 Version 1.1.3  
-Updated September 8, 2014  
+Updated September 10, 2014  
 
 [__BagIt and bagbatch.py__](https://github.com/SahreeK/BagBatch#bagit-and-bagbatchpy)  
 [__Requirements and setup__](https://github.com/SahreeK/BagBatch#requirements-and-setup)  
@@ -19,14 +19,14 @@ Updated September 8, 2014
 [__Using bagbatch.py__](https://github.com/SahreeK/BagBatch#using-bagbatchpy)  
 – [Overview](https://github.com/SahreeK/BagBatch#overview)  
 – [Detailed Instructions](https://github.com/SahreeK/BagBatch#detailed-instructions)  
-[__Setting up a new version of Bagit__](https://github.com/SahreeK/BagBatch#setting-up-a-new-version-of-bagit)  
+[__Setting up a new version of BagIt or changing the installation path__](https://github.com/SahreeK/BagBatch#setting-up-a-new-version-of-bagit-or-changing-the-installation-path)  
 – [Overview](https://github.com/SahreeK/BagBatch#overview-1)  
 – [Detailed Instructions](https://github.com/SahreeK/BagBatch#detailed-instructions-1)  
 [__Troubleshooting__](https://github.com/SahreeK/BagBatch#troubleshooting)  
 – [Java](https://github.com/SahreeK/BagBatch#java-1)  
 – [Python](https://github.com/SahreeK/BagBatch#python-1)  
-– [BagBatch](https://github.com/SahreeK/BagBatch#bagbatch)  
 – [Bagit](https://github.com/SahreeK/BagBatch#bagit-1)  
+– [BagBatch](https://github.com/SahreeK/BagBatch#bagbatch)  
 
 
 ## BagIt and bagbatch.py
