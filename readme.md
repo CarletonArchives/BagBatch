@@ -1,6 +1,6 @@
 BagBatch: BagIt batch processing in Python
 ================================
-Version 1.1.3  
+Version 1.1.4  
 Updated September 10, 2014  
 
 [__BagIt and bagbatch.py__](https://github.com/SahreeK/BagBatch#bagit-and-bagbatchpy)  
@@ -18,6 +18,7 @@ Updated September 10, 2014
 – – – [Mac](https://github.com/SahreeK/BagBatch#mac-1)  
 [__Using bagbatch.py__](https://github.com/SahreeK/BagBatch#using-bagbatchpy)  
 – [Overview](https://github.com/SahreeK/BagBatch#overview)  
+– [Usage](https://github.com/SahreeK/BagBatch#usage)  
 – [Detailed Instructions](https://github.com/SahreeK/BagBatch#detailed-instructions)  
 [__Setting up a new version of BagIt or changing the installation path__](https://github.com/SahreeK/BagBatch#setting-up-a-new-version-of-bagit-or-changing-the-installation-path)  
 – [Overview](https://github.com/SahreeK/BagBatch#overview-1)  
@@ -107,6 +108,7 @@ To see a list of folders, type `ls` and press enter. This lists all the director
 
 
 ## Using bagbatch.py
+
 ##### Overview
 
 1. Using [Terminal or Command Prompt](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac), navigate to the directory containing 
@@ -118,20 +120,28 @@ Commands are as follows:
  - update: Updates the manifests and (if it exists) the bag-info.txt for a bag.
  - verifyvalid: Verifies the validity of a bag.
 
+##### Usage
+
+_Input_: Parent directory with subdirectories to bag, verifyvalid, or update.  
+_Output_: Parent directory with bagged subdirectories.  
+_Dependency_: BAGIT_INST_PATH.txt  
+The first time bagbatch.py is run, it will create BAGIT_INST_PATH.txt and prompt for the path of the BagIt installation. Within this folder, there will be a folder named 'bin' containing bag.bat or bag.sh. This path may be "/Applications/bagit-X.X" or "C:\Program Files\bagit-X.X.X". The path will be saved in BAGIT_INST_PATH.txt. Each time bagbatch.py is run, it will validate this location.  
+
+Possible Terminal/Command Prompt inputs:  
+
+1. `python bagbatch.py <command> <directory>`  
+2. `python bagbatch.py <command>`: Prompts for directory to run the command on  
+3. `python <directory>`: Automatically uses the `baginplace` command
+4. `python bagbatch.py`: Prints the usage instructions
+5. `python bagbatch.py help` or `python bagbatch.py version`: Prints the usage instructions
 
 ##### Detailed Instructions
 
 1. Open [Terminal or Command Prompt](https://github.com/SahreeK/BagBatch#opening-command-prompt-windows-and-terminal-mac) and navigate to the directory containing bagbatch.py. For example, if it's in a folder on the desktop, enter "cd Desktop/folder".  
-2. If prompted for the directory containing bag.sh (Mac) or bag.bat (Windows) in the bin folder, navigate to the installation directory. This folder name will look like 
-`bagit-VERSION`.
-3. Enter `python bagbatch.py <command>` using an [accepted command](https://github.com/SahreeK/BagBatch#overview). Press 
-enter and the current status will be printed to the screen.  
-Or manually enter the directory: Enter `python bagbatch.py <command> <dir>` where `<dir>` is the 
-directory that contains all the subdirectories that need to be bagged. Type 
-the path in or drag-and-drop the folder from the Finder/Explorer menu. Press enter. If no command is enter, baginplace will be used.
-
-4. Depending on the size of the files, it may take a while 
-to bag. The program is done once "Bags complete" is printed.
+2. Enter `python bagbatch.py <command>` using an [accepted command](https://github.com/SahreeK/BagBatch#usage). Press 
+enter and the current status will be printed to the screen. The program will prompt for the folder containing the directories to run this command on. To prevent this popup, you can instead enter `python bagbatch.py <command> <dir>` where `<dir>` is the directory that contains all the subdirectories that need to be bagged. Type the path in or drag-and-drop the folder from the Finder/Explorer menu. Press enter. If no command is enter, baginplace will be used.  
+3. If this is the first time bagbatch.py is run, you will be prompted for the BagIt installation directory. This folder name will look like `bagit-X.X.X` where the X.X.X is the version number. Within this folder, there must be another folder named 'bin' containing the files bag.sh (Mac) and bag.bat (Windows).  
+4. Depending on the size of the files, it may take a while to bag. The program is done once "Bags complete" is printed.
 
 
 ## Setting up a new version of BagIt or changing the installation path

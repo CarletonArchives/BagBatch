@@ -2,21 +2,26 @@
 	bagbatch.py
 	Written to run BagIt on multiple directories at once.
 	
-	BagBatch Version 1.1.3
-	Updated September 8, 2014  
+	BagBatch Version 1.1.4
+	Updated September 10, 2014  
 
-	Usage:	python bagbatch.py <dir>
-			<dir> is the parent of the subdirectories to bag
+	Usage:	python bagbatch.py <command> <dir>
+			<command> is the command used on the directory's subdirectories.
+				If no command is specified, 'baginplace' is used.
+			<dir> is the parent of the subdirectories to run the command on
+				If no directory is specified, program will prompt for one.
 			BAGIT_INST_PATH.txt will contain the installation path to bag.bat/bag.sh
 
-	Input:		Parent directory with subdirectories to be bagged.
+	Input:		Parent directory with subdirectories to bag, verifyvalid, or
+				update.
 	Output:		Parent directory with bagged subdirectories.
 	Dependency: BAGIT_INST_PATH.txt
 		The first time bagbatch.py is run, it will create BAGIT_INST_PATH.txt 
-		and prompt for the path to bag.bat or bag.sh. This path may be 
-		"/Program Files/bagit/bin" or "C:\Program Files\bagit\bin". The path 
-		will be saved in BAGIT_INST_PATH.txt. Each time bagbatch.py is run, it 
-		will validate this location. 
+		and prompt for the path of the BagIt installation. Within this folder, 
+		there will be a folder named 'bin' containing bag.bat or bag.sh. This 
+		path may be "/Applications/bagit-X.X" or "C:\Program Files\bagit-X.X.X". 
+		The path will be saved in BAGIT_INST_PATH.txt. Each time bagbatch.py is 
+		run, it will validate this location. 
 """
 
 import os, sys, platform
@@ -24,7 +29,7 @@ import shlex, subprocess
 from tkFileDialog import askopenfilename
 import tkFileDialog, Tkinter
 
-VERSION = '1.1.3'
+VERSION = '1.1.4'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 
@@ -72,7 +77,8 @@ def get_immediate_subdirectories(directory):
 	return dirList
 
 def validate_bagit_path():
-	""" Validates the path to bag.bat/bag.sh and resets it if needed. """
+	""" Validates the path to BagIt installation folder containing bin/bag.bat
+	or bin/bag.sh. Prompts for a new path and resets old path if needed. """
 	print "\nValidating BagIt installation path..."
 	# Creates the text file with the bagit path, if need be
 	if not os.path.isfile(BAGIT_INST_PATH):
@@ -95,7 +101,7 @@ def validate_bagit_path():
 			print 'cannot find extension'
 
 	# if not, prompt for new path, write to BAGIT_INST_PATH.txt, and validate
-	message = '\nFind the BagIt installation folder containing bag%s\nLook in Applications (Mac) or Program Files (Windows)' %get_ext()
+	message = '\nSelect the BagIt installation folder. This folder may be located in Applications (Mac) or Program Files (Windows). This will resemble bagit-X.X.X where \'X.X.X\' is the version number.'
 	path = select_folder(message)
 	# if there are extra quoting characters, remove them
 	if '"' in path or "'" in path:
@@ -117,7 +123,7 @@ def select_folder(message):
 	root.withdraw()
 	result = tkFileDialog.askdirectory(parent = root, title = message)
 	if not result:
-		print '\nExiting BagBatch.py'
+		print '\nExiting bagbatch.py'
 		sys.exit()
 	return result
 
@@ -137,8 +143,8 @@ def usage_message():
 	print "BagBatch Version",VERSION
 	print "Usage:\tpython bagbatch.py <command>"
 	print "\tOr:\tpython bagbatch.py <command> <dir>"
-	print "\t\t<dir> is the parent directory of the subdirectories to bag"
-	print "\tBAGIT_INST_PATH.txt will contain the installation path to bag%s" %get_ext()
+	print "\t\t<dir> is the parent dir of the subdirectories"
+	print "\tBAGIT_INST_PATH.txt will contain the installation path: bagit-X.X.X"
 	print "Valid Commands:"
 	for cmd in valid_commands():
 		print '\t' + cmd + ': \t' + valid_commands()[cmd]
