@@ -24,7 +24,7 @@
 		run, it will validate this location. 
 """
 
-import os, sys, platform
+import os, sys, platform, datetime
 import shlex, subprocess
 from tkFileDialog import askopenfilename
 import tkFileDialog, Tkinter
@@ -32,36 +32,75 @@ import tkFileDialog, Tkinter
 VERSION = '1.1.4'
 BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
-
+today=datetime.datetime.now()
+LOGLOCATION="BagBatchLogLocale.txt"
+LOGFILE="BagBatchLog-"+today.strftime("%m-%d-%y-%H:%M:%S")+".txt"
 def call_bag_command(directory, command):
 	""" Given a single directory, calls bag <command> <dir> using 
 	subprocess.check_call() for Windows and subprocess.Popen() for Mac. Errors  
 	will be printed out. """
-	print '----------------------\n',command + ':', os.path.normpath(directory) + "."	
+	print '----------------------\n',command + ':', os.path.normpath(directory) + "."
+	with open(LOGLOCATION) as ll_path:
+		logpath=ll_path.read()
 	with open(BAGIT_INST_PATH) as bb_path:
 		path = bb_path.read()
-
+	os.chdir(logpath)
+	log=open(LOGFILE,"a")
+	log.write('----------------------\n'+command + ':'+ os.path.normpath(directory) + ". ")
 	os.chdir(path)
+
+
 	try:
 		if get_ext() == '.bat':
-			subprocess.check_call([os.path.join(path, 'bag'), command, directory], shell=True)
+			#p=subprocess.Popen([os.path.join(path, 'bag'), command, directory],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
+			if(command=="verifyvalid"):
+				p = subprocess.Popen([os.path.join(path, 'bag'), command, directory,"--failmode","FAIL_STAGE"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			else:
+				p = subprocess.Popen([os.path.join(path, 'bag'), command, directory],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			p.wait()
+			stdout,stderr = p.communicate()
+			if stdout:
+				print stdout
+				write=stdout[:stdout.find("Complete results written to ")]
+				if(write[-1]!="\n"):
+					log.write(write+"\n")
+				else:
+					log.write(write)
+			if stderr:
+				print stderr
+			#subprocess.check_call([os.path.join(path, 'bag'), command, directory], shell=True)
+			log.close()
 			return True
 		elif get_ext() == '.sh':
-			p = subprocess.Popen(['./bag', command, directory])
+			if(command=="verifyvalid"):
+				p = subprocess.Popen(['./bag', command, directory,"--failmode","FAIL_STAGE"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+			else:
+				p = subprocess.Popen(['./bag', command, directory],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			p.wait()
 			stdout, stderr = p.communicate()
 			# if nothing goes wrong, stdout and stderr = None
 			if stdout:
+				#logpath=stdout[stdout.find("Complete results written to ")+len("Complet results written to  "):-1]
 				print stdout
+				write=stdout[:stdout.find("Complete results written to ")]
+				if(write[-1]!="\n"):
+					log.write(write+"\n")
+				else:
+					log.write(write)
 			if stderr:
 				print stderr
+			log.close()
 			return True
 		else:
 			print 'Error detecting OS'
+			log.write("\nError detecting OS\n")
+			log.close()
 			return False
 		
 	except:
 		print "Error:", command, "was not successful. Look in the readme for troubleshooting."
+		log.write("\nError:"+command+"was not successful. Look in the readme for troubleshooting.\n")
+		log.close()
 		return False
 
 
@@ -116,6 +155,35 @@ def validate_bagit_path():
 	bb_file.write(path_bin.strip())
 	bb_file.close()
 	validate_bagit_path()
+def validate_logfile_path():
+	""" Validates the path to the folder for logs. Prompts for new selection if needed"""
+	print "\nValidating Folder for logs"
+	# Creates the text file with the logfile path, if need be
+	if not os.path.isfile(LOGLOCATION):
+		ll_file = open(LOGLOCATION, "w")
+		ll_file.close()
+
+	# closes file after with statement
+	with open(LOGLOCATION, "r+") as ll_path:
+		path = ll_path.read()
+	
+	# if the path exists, return and start bagging
+	path = os.path.normpath(path)
+	if path and os.path.exists(path) and not (path == '' or path == '.'):
+		print path
+		print "Validated.\n"
+		return
+
+	# if not, prompt for new path, write to BagBatchLogLocale.txt, and validate
+	message = '\nSelect a folder for logfiles from bagbatch to go'
+	path = select_folder(message)
+	# if there are extra quoting characters, remove them
+	if '"' in path or "'" in path:
+		path=''.join(shlex.split(path))
+	ll_file = open(LOGLOCATION, "w")
+	ll_file.write(path.strip())
+	ll_file.close()
+	validate_logfile_path()
 
 def select_folder(message):
 	print message
@@ -174,6 +242,7 @@ def main():
 			dirToBag = select_folder('Select the parent folder containing the folders to %s.' %command)						
 
 	validate_bagit_path()
+	validate_logfile_path()
 	dirToBag = os.path.normpath(dirToBag)
 
 	print "----------------------\nRunning",command,"for all directories in", 
@@ -188,4 +257,5 @@ def main():
 		print "\n----------------------\n----------------------\nBags Complete.\n----------------------"
 	else:
 		print "----------------------\n----------------------\nBags not complete: Error with bags.\n----------------------"
+	#print largestring
 main()
