@@ -34,7 +34,7 @@ BAGIT_INST_PATH = "BAGIT_INST_PATH.txt"
 BAGBATCH_DIR = os.getcwd()
 today=datetime.datetime.now()
 LOGLOCATION="BagBatchLogLocale.txt"
-LOGFILE="BagBatchLog-"+today.strftime("%m-%d-%y-%H:%M:%S")+".txt"
+LOGFILE="BagBatchLog-"+today.strftime("%m-%d-%y_%H-%M-%S")+".txt"
 def call_bag_command(directory, command):
 	""" Given a single directory, calls bag <command> <dir> using 
 	subprocess.check_call() for Windows and subprocess.Popen() for Mac. Errors  
@@ -45,6 +45,10 @@ def call_bag_command(directory, command):
 	with open(BAGIT_INST_PATH) as bb_path:
 		path = bb_path.read()
 	os.chdir(logpath)
+	print logpath
+	if(not os.path.exists(LOGFILE)):
+		log=open(LOGFILE,"w")
+		log.close()
 	log=open(LOGFILE,"a")
 	log.write('----------------------\n'+command + ':'+ os.path.normpath(directory) + ". ")
 	os.chdir(path)
@@ -54,9 +58,9 @@ def call_bag_command(directory, command):
 		if get_ext() == '.bat':
 			#p=subprocess.Popen([os.path.join(path, 'bag'), command, directory],stderr=subprocess.PIPE,stdout=subprocess.PIPE)
 			if(command=="verifyvalid"):
-				p = subprocess.Popen([os.path.join(path, 'bag'), command, directory,"--failmode","FAIL_STAGE"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+				p = subprocess.Popen([os.path.join(path, 'bag.bat'), command, directory,"--failmode","FAIL_STAGE"],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			else:
-				p = subprocess.Popen([os.path.join(path, 'bag'), command, directory],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+				p = subprocess.Popen([os.path.join(path, 'bag.bat'), command, directory],stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 			p.wait()
 			stdout,stderr = p.communicate()
 			if stdout:
@@ -146,8 +150,10 @@ def validate_bagit_path():
 	if '"' in path or "'" in path:
 		path=''.join(shlex.split(path))
 	try:
+		print path
 		path_bin = path + '/bin'
-		if not os.path.isfile(path_bin):
+		print path_bin
+		if not os.path.isdir(path_bin):
 			print 'not a valid folder'
 	except:
 		print 'no bin path'
