@@ -3,7 +3,7 @@
 	Written to run BagIt on multiple directories at once.
 	
 	BagBatch Version 1.1.4
-	Updated September 10, 2014  
+	Updated June 21, 2017  
 
 	Usage:	python bagbatch.py <command> <dir>
 			<command> is the command used on the directory's subdirectories.
