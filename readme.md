@@ -1,7 +1,7 @@
 BagBatch: BagIt batch processing in Python
 ================================
 Version 1.1.4  
-Updated September 10, 2014  
+Updated June 21, 2017  
 
 [__BagIt and bagbatch.py__](https://github.com/SahreeK/BagBatch#bagit-and-bagbatchpy)  
 [__Requirements and setup__](https://github.com/SahreeK/BagBatch#requirements-and-setup)  
