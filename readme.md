@@ -52,7 +52,7 @@ If you have an older or newer version of Windows or Mac, the directions below ma
 
 BagIt can be downloaded from the [Library of Congress on SourceForge](https://sourceforge.net/projects/loc-xferutils/). Adapted from the readme file for BagIt 4.9.0 (see the link above for the most recent information):
 
-Update 6-21-2017.  Please note that the Library of Congress no longer uses Bagit 4 and has moved to a new version of Bagit that is not compliant with our BagBatch script.  In the Fall of 2017 we will begin working on updating BagBatch to be complaint with the new version of Bagit, but in the meantime, BagIt 4.4 is still available at https://sourceforge.net/projects/loc-xferutils/.
+Update 5-9-2018.  Please note that the Library of Congress no longer uses Bagit 4 and has moved to a new version of Bagit that is not compliant with our BagBatch script.  In the Fall of 2017 we will begin working on updating BagBatch to be complaint with the new version of Bagit, but in the meantime, BagIt 4.4 is still available at https://sourceforge.net/projects/loc-xferutils/ under the name "Library of Congress - Transfer Tools."
 
  - Unzip bagit-java-master. From this new folder, unzip bagit-x.x.x-src.zip. In the resulting 'bagit-x.x.x/bin' subdirectory, you will find bag.sh (Mac) and bag.bat (Windows) scripts that are used to invoke the command line interface.
 
